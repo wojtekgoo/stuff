@@ -1,1 +1,0 @@
-dpapi//chrome /in:"C:\Users\t616311\AppData\Local\Google\Chrome\User Data\Default\Cookies" /unprotect /masterkey:a6843aab65006cada5f50aaf4cf49d2cb1ed39a9ed6d58e99b2ef7d6eefc0205ff2641c8d2c97a2bd989b49be32e0802c1a4ccafd041bef51873996f64f6aadb
