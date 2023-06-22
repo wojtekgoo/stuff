@@ -1,11 +1,11 @@
 import json
-from links import logger, project_path, current_date
+from links import logger, project_path, current_date, URL
 from datetime import datetime
 import pandas as pd
 import os
 import shutil
 from pathlib import Path
-from links import webhook
+import requests
 
 
 def create_json_summary_data(data, domain):
@@ -32,9 +32,11 @@ def json_summary_data(data):
         outfile.write(json_object)
     logger.info("crete json done")
 
-    response = webhook.send(files=file)
-    assert response.status_code == 200
-    assert response.body == "ok"
+    # new
+    send_file_to_slack(file)
+    # response = webhook.send(files=file)
+    # assert response.status_code == 200
+    # assert response.body == "ok"
 
 
 def extract_domains_from_text_file(text_file):
@@ -88,4 +90,29 @@ def move_old_file_to_arc(file_path, destination_folder):
     # end new
     shutil.move(file_path, destination_path)
     logger.info("files were moved to archive")
+
+
+# new
+def send_file_to_slack(file_path):
+    try:
+        with open(file_path, 'rb') as file:
+            file_content = file.read()
+
+        payload = {
+            'filename': file_path,
+            'title': 'File from Python'
+        }
+
+        files = {
+            'file': (file_path, file_content)
+        }
+
+        response = requests.post(URL, data=payload, files=files)
+
+        if response.status_code == 200:
+            logger.info("File sent successfully to Slack!")
+        else:
+            logger.error('Error sending file to Slack:', response.text)
+    except Exception as e:
+        logger.error('Error sending file to Slack:', str(e))
 
