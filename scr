@@ -1,0 +1,8 @@
+$htmlBody = @"<html><body style="font-family: 'Volvo Novum 3.1 Light', sans-serif; font-size: 16px;"><p>Hello <span style="font-family: 'Segoe UI', sans-serif; font-weight: bold;"> good sir, please respond to this message normally.</span></p></body></html>"@
+
+$mailMessage = New-Object System.Net.Mail.MailMessage$mailMessage.From = New-Object System.Net.Mail.MailAddress("savvas.kechagias@volvo.com")$mailMessage.To.Add("benjamin.svensson.4@consultants.volvo.com")$mailMessage.Subject = "Help me!"$mailMessage.IsBodyHtml = $true$mailMessage.Body = $htmlBody
+
+
+$smtpClient = New-Object System.Net.Mail.SmtpClient("mailgot.it.volvo.net")$smtpClient.Send($mailMessage)
+
+Write-Host "Successfully mail sent"
